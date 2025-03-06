@@ -14,7 +14,7 @@
 		/* My kit:
 		- 20x 1.5mm
 		- 40x 1mm
-		- 800x 0.85mm
+		- 800x 0.75mm
 		- 5x12 1mm meteorites
 		*/
 
@@ -26,12 +26,13 @@
 		- Big and little dipper: 13
 		*/
 
-		var initialSize1Count = 800;
-		var initialSize2Count = 0;
-		var initialSize3Count = 0;
-		var initialSize4Count = 0;
+		var initialSize1Count = 0;
+		var initialSize2Count = 800;
+		var initialSize3Count = 40;
+		var initialSize4Count = 20;
 		var initialEdgeFadeOut = 150;
 		var initialBorder = 0;
+		var initialObstacleBuffer = 10;
 
 		// Optional background image
 		//var bgImage = "constellations.png";
@@ -254,6 +255,7 @@
 					document.getElementById('showsize3').checked,
 					document.getElementById('showsize4').checked
 				];
+				var obstacleBuffer = parseInt(document.getElementById('obstaclebuffer').value);
 
 				var obstacles = {
 					rectangles: [],
@@ -330,8 +332,8 @@
 
 							// Obstacle collisions?
 							for (const rect of obstacles.rectangles) {
-								const isInX = x >= rect.x && x <= (rect.x + rect.w)
-								const isInY = y >= rect.y && y <= (rect.y + rect.h)
+								const isInX = x >= (rect.x - obstacleBuffer) && x <= (rect.x + rect.w + obstacleBuffer)
+								const isInY = y >= (rect.y - obstacleBuffer) && y <= (rect.y + rect.h + obstacleBuffer)
 								if (isInX && isInY) {
 									bTryAgain = true;
 								}
@@ -341,7 +343,7 @@
 								const distanceSquared = (x - circle.x) ** 2 + (y - circle.y) ** 2;
 								
 								// Check if the distance is less than or equal to the square of the radius
-								if (distanceSquared <= (circle.d / 2) ** 2) {
+								if (distanceSquared <= (circle.d / 2 + obstacleBuffer) ** 2) {
 									bTryAgain = true;
 								}
 							}
@@ -488,6 +490,12 @@
 			<tr>
 				<td>Draw obstacles:</td>
 				<td><input type=checkbox id=obstacles checked onclick="update();"></td>
+			</tr>
+			<tr>
+				<td>Obstacle buffer:</td>
+				<script>
+					document.write('<td><input type=text id=obstaclebuffer value="' + initialObstacleBuffer + '" size=4 maxlength=4 onkeyup="update();"></td>');
+				</script>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
