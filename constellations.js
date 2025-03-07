@@ -21,22 +21,23 @@ const constellations = [
         rotation: 0,
         scale: 2,
         stars: [
+            { x: 8, y: 13, size: 4 },
             { x: 20, y: 38, size: 4 },
+            { x: 20, y: 4, size: 4 },
             { x: 34, y: 13, size: 4 },
-            { x: 50, y: 5, size: 4 },
-            { x: 14, y: 20, size: 4 },
-            { x: 22, y: 18, size: 4 },
             { x: 49, y: 34, size: 4 },
+            { x: 50, y: 5, size: 4 },
             { x: 57, y: 53, size: 4 },
-            { x: 70, y: 46, size: 3 },
-            { x: 63, y: 46, size: 3 },
-            { x: 48, y: 62, size: 3 },
+
+            { x: 5, y: 25, size: 3 },
+            { x: 14, y: 20, size: 3 },
+            { x: 17, y: 56, size: 3 },
+            { x: 22, y: 18, size: 3 },
             { x: 32, y: 45, size: 3 },
             { x: 40, y: 74, size: 3 },
-            { x: 17, y: 56, size: 3 },
-            { x: 20, y: 4, size: 3 },
-            { x: 8, y: 13, size: 3 },
-            { x: 5, y: 25, size: 3 }
+            { x: 48, y: 62, size: 4 },
+            { x: 63, y: 46, size: 3 },
+            { x: 70, y: 46, size: 3 }
         ]
     },
     {
@@ -47,19 +48,19 @@ const constellations = [
         scale: 1,
         stars: [
             { x: 40, y: 41, size: 4 },
-            { x: 95, y: 64, size: 3 },
-            { x: 92, y: 60, size: 3 },
             { x: 14, y: 8, size: 4 },
             { x: 41, y: 24, size: 4 },
-            { x: 89, y: 52, size: 3 },
-            { x: 69, y: 54, size: 3 },
-            { x: 59, y: 64, size: 3 },
-            { x: 65, y: 72, size: 3 },
-            { x: 56, y: 45, size: 3 },
-            { x: 54, y: 40, size: 3 },
+            { x: 5, y: 28, size: 3 },
             { x: 48, y: 34, size: 3 },
             { x: 50, y: 45, size: 3 },
-            { x: 5, y: 28, size: 3 }
+            { x: 54, y: 40, size: 3 },
+            { x: 56, y: 45, size: 3 },
+            { x: 59, y: 64, size: 3 },
+            { x: 65, y: 72, size: 3 },
+            { x: 69, y: 54, size: 4 },
+            { x: 89, y: 52, size: 3 },
+            { x: 92, y: 60, size: 3 },
+            { x: 95, y: 64, size: 3 }
         ]
     },
     {
@@ -89,13 +90,13 @@ const constellations = [
         rotation: 0,
         scale: 1,
         stars: [
-            { x: 97, y: 57, size: 4 },
+            { x: 14, y: 10, size: 3 },
             { x: 42, y: 17, size: 4 },
             { x: 51, y: 32, size: 3 },
-            { x: 66, y: 44, size: 3 },
             { x: 59, y: 60, size: 3 },
-            { x: 82, y: 72, size: 3 },
-            { x: 14, y: 10, size: 3 }
+            { x: 66, y: 44, size: 3 },
+            { x: 82, y: 72, size: 4 },
+            { x: 97, y: 57, size: 4 }
         ]
     },
     {
