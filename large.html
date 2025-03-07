@@ -9,7 +9,7 @@
 		//var starfieldWidth = 1750;
 		//var starfieldHeight = 1090;
 		var starfieldWidth = 1240;
-		var starfieldHeight = 1370;
+		var starfieldHeight = 870;
 
 		/* My kit:
 		- 20x 1.5mm
@@ -23,7 +23,8 @@
 		- Gemini (baby): 17
 		- Taurus (me): 12
 		- Capricorn (Danni): 12
-		- Big and little dipper: 13
+		- Big dipper: 7
+		- little dipper: 6
 		*/
 
 		var initialSize1Count = 0;
@@ -32,7 +33,15 @@
 		var initialSize4Count = 20;
 		var initialEdgeFadeOut = 150;
 		var initialBorder = 0;
-		var initialObstacleBuffer = 10;
+		var initialObstacleBuffer = 5;
+
+		// Format: [size, x, y]
+		var fixedStars = [
+			[4, 10, 20],
+			[4, 10, 25],
+			[4, 10, 30]
+		]
+
 
 		// Optional background image
 		//var bgImage = "constellations.png";
@@ -91,9 +100,20 @@
 			display: none;
 			font-family: 'Courier New', Monospace;
 		}
+
+		#baycounts {
+			display: flex;
+			width: 100%;
+			padding-bottom: 10px;
+		}
+		#baycounts > div {
+			padding-right: 20px;
+			margin-top: 20px;
+		}
 	</style>
 	<script src="perlin.js"></script>
 	<script src="p5.min.js"></script>
+	<script src="constellations.js"></script>
 	<script>
 		var processingInstance;
 
@@ -223,6 +243,7 @@
 				var cc = document.getElementById('cc').checked;
 				var doShapecode = document.getElementById('shapecode').checked;
 				var doObstacles = document.getElementById('obstacles').checked;
+				var doBayCounts = document.getElementById('showbaycounts').checked;
 				var size1count = parseInt(document.getElementById('size1').value);
 				var size2count = parseInt(document.getElementById('size2').value);
 				var size3count = parseInt(document.getElementById('size3').value);
@@ -261,7 +282,7 @@
 					rectangles: [],
 					circles: [{
 						x: 643,
-						y: 688,
+						y: 388,
 						d: 65
 					}],
 					lines: [
@@ -269,7 +290,7 @@
 						{ x1: 0, y1: 1010, x2: 1240, y2: 1010 }
 					]
 				}
-				for (var x = 180; x < 1750; x += 240) { // 24" joists
+				for (var x = 180; x < width; x += 240) { // 24" joists
 					obstacles.rectangles.push({
 						x,
 						y: 0,
@@ -298,8 +319,9 @@
 				if (isNaN(clusterMaskScale) || clusterMaskScale < 1) { clusterMaskScale = 1; }
 				clusterMaskScale /= 100;
 
+				const generatedStars = new Set()
+
 				for (var i = 0; i < stars.length; i++) {
-					p.strokeWeight(stars[i].size);
 					for (var c = 0; c < stars[i].count; c++) {
 						do {
 							do {
@@ -347,30 +369,76 @@
 									bTryAgain = true;
 								}
 							}
-						} while (bTryAgain);
-
-						if (showsize[i]) {
-							p.stroke(stars[i].color[0], stars[i].color[1], stars[i].color[2]);
-							if (doShapecode) {
-								switch (i) {
-									case 0:
-									case 1:
-										p.point(x, y);
-										break;
-									case 2:
-										p.triangle(x, y, x - 2, y + 4, x + 2, y + 4);
-										break;
-									case 3:
-										p.fill(stars[i].color[0], stars[i].color[1], stars[i].color[2]);
-										p.square(x, y, i * 2);
-								}
-							} else {
-								p.point(x, y);
-							}
-
-
+						} while (bTryAgain) {
+							// drawStar(i, x, y);
 						}
 					}
+				}
+
+				for (const star of fixedStars) {
+					// drawStar(star[0] - 1, star[1], star[2])
+				}
+
+				for (const constellation of constellations) {
+					plotConstellation(constellation)
+				}
+
+				function drawStar (starIndex, x, y) {
+					if (!showsize[starIndex]) {
+						return;
+					}
+
+					const star = stars[starIndex];
+					p.strokeWeight(star.size);
+					p.stroke(star.color[0], star.color[1], star.color[2]);
+					if (doShapecode) {
+						switch (i) {
+							case 0:
+							case 1:
+								p.point(x, y);
+								break;
+							case 2:
+								p.triangle(x, y, x - 2, y + 4, x + 2, y + 4);
+								break;
+							case 3:
+								p.fill(star.color[0], star.color[1], star.color[2]);
+								p.square(x, y, starIndex * 2);
+						}
+					} else {
+						p.point(x, y);
+					}
+
+					generatedStars.add({ x, y, size: star.size })
+				}
+
+				function plotConstellation({ stars, x, y, rotation, scale }) {
+					if (stars.length === 0) return;
+
+					const radians = (Math.PI / 180) * rotation; // Convert degrees to radians
+
+					// Find min/max x and y values to determine the constellation’s midpoint
+					let minX = Math.min(...stars.map(star => star.x));
+					let maxX = Math.max(...stars.map(star => star.x));
+					let minY = Math.min(...stars.map(star => star.y));
+					let maxY = Math.max(...stars.map(star => star.y));
+
+					let centerX = (minX + maxX) / 2;
+					let centerY = (minY + maxY) / 2;
+
+					stars.forEach(star => {
+						let { x: starX, y: starY, size } = star;
+
+						// Translate to origin (centering around calculated midpoint)
+						let relativeX = (starX - centerX) * scale;
+						let relativeY = (starY - centerY) * scale;
+
+						// Apply rotation around the constellation's center
+						let rotatedX = relativeX * Math.cos(radians) - relativeY * Math.sin(radians);
+						let rotatedY = relativeX * Math.sin(radians) + relativeY * Math.cos(radians);
+
+						// Translate to the new (x, y) position
+						drawStar(size - 1, x + rotatedX, y + rotatedY);
+					});
 				}
 
 				if (window.saveParamsFlag) {
@@ -415,6 +483,45 @@
 						p.line(line.x1, line.y1, line.x2, line.y2);
 					}
 				}
+
+				// Calculate stars per bay
+				const bays = []
+				for (let i = 0; i < obstacles.rectangles.length + 1; i++) {
+					const bay = {
+						x: obstacles.rectangles[i]?.x || width,
+						counts: showsize.reduce((p, c, i) => {
+							p[i + 1] = 0;
+							return p
+						}, {})
+					};
+					bays.push(bay);
+					generatedStars.forEach(star => {
+						if (star.x < bay.x) {
+							bay.counts[star.size]++;
+							generatedStars.delete(star)
+						}
+					});
+				}
+
+				// Draw bay counts
+				p.stroke(0, 255, 0, 128);
+				p.strokeWeight(1);
+				p.textAlign(p.CENTER, p.BOTTOM);
+				let summary = ''
+				bays.reduce((prev, bay, i) => {
+					const prevX = prev?.x ?? 0;
+					const x = bay.x - ((bay.x - prevX) / 2);
+					const counts = []
+					for (let i = 0; i < showsize.length; i++) {
+						counts.push(`Size ${i + 1}: ${bay.counts[i + 1]}`);
+					}
+					if (doBayCounts) {
+						p.text(counts.join('\n'), x, height - 10);
+					}
+					summary += `<div><b>Bay ${i}:</b><div>${counts.join('</div><div>')}</div></div>`;
+					return bay;
+				}, null);
+				document.getElementById('baycounts').innerHTML = summary;
 			};
 		};
 
@@ -426,6 +533,7 @@
 <body>
 	<div id=currentParams></div>
 	<div id="starfield"></div>
+	<div id=baycounts></div>
 	<div id=config>
 		<h3>Starfield generator by <a href="http://burnit.co.uk/" target="_blank">Seb Francis</a></h3>
 		<br>
@@ -496,6 +604,10 @@
 				<script>
 					document.write('<td><input type=text id=obstaclebuffer value="' + initialObstacleBuffer + '" size=4 maxlength=4 onkeyup="update();"></td>');
 				</script>
+			</tr>
+			<tr>
+				<td>Show bay counts:</td>
+				<td><input type=checkbox id=showbaycounts checked onclick="update();"></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
