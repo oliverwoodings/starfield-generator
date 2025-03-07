@@ -29,8 +29,8 @@
 
 		var initialSize1Count = 0;
 		var initialSize2Count = 800;
-		var initialSize3Count = 40;
-		var initialSize4Count = 20;
+		var initialSize3Count = 0;
+		var initialSize4Count = 0;
 		var initialEdgeFadeOut = 150;
 		var initialBorder = 0;
 		var initialObstacleBuffer = 5;
@@ -191,6 +191,17 @@
 			}
 			processingInstance.save("starfield.png");
 		}
+		function updateQueryParams (params) {
+			const url = new URL(window.location);
+			Object.keys(params).forEach(key => {
+				url.searchParams.set(key, params[key]);
+			});
+			window.history.replaceState({}, '', url);
+		}
+		function getQueryParam(key) {
+			const urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(key);
+		}
 
 		window.saveParamsFlag = false;
 		function saveParams() {
@@ -305,6 +316,8 @@
 					clusterMaskSeed = parseInt(document.getElementById('clusterMaskSeed').value);
 				}
 
+				updateQueryParams({ clusterMaskSeed, seed })
+
 				// spaceAmount 0->100 clusterMaskThreshold 1.0->0.3
 				var spaceAmount = parseInt(document.getElementById('spaceAmount').value);
 				if (spaceAmount < 0) { spaceAmount = 0; }
@@ -370,7 +383,7 @@
 								}
 							}
 						} while (bTryAgain) {
-							// drawStar(i, x, y);
+							drawStar(i, x, y);
 						}
 					}
 				}
@@ -392,7 +405,7 @@
 					p.strokeWeight(star.size);
 					p.stroke(star.color[0], star.color[1], star.color[2]);
 					if (doShapecode) {
-						switch (i) {
+						switch (starIndex) {
 							case 0:
 							case 1:
 								p.point(x, y);
@@ -550,7 +563,9 @@
 			</tr>
 			<tr>
 				<td>Random seed:</td>
-				<td><input type=text id=seed size=4 maxlength=5 onkeyup="update();"></td>
+				<script>
+					document.write('<td><input type=text id=seed value="' + getQueryParam('seed') + '" size=4 maxlength=5 onkeyup="update();"></td>');
+				</script>
 				<td><input type=submit value="New seed" onclick="newSeed();">
 					<input type=submit value="&lt;" id=prevSeed onclick="prevSeed();" disabled><input type=submit
 						value="&gt;" id=nextSeed onclick="nextSeed();" disabled>
@@ -631,7 +646,9 @@
 			</tr>
 			<tr>
 				<td>Space/cluster seed:</td>
-				<td><input type=text id=clusterMaskSeed size=4 maxlength=5 onkeyup="update();"></td>
+				<script>
+					document.write('<td><input type=text id=clusterMaskSeed value="' + getQueryParam('clusterMaskSeed') + '" size=4 maxlength=5 onkeyup="update();"></td>');
+				</script>
 				<td><input type=submit value="New seed" onclick="newClusterMaskSeed();">
 					<input type=submit value="&lt;" id=prevClusterMaskSeed onclick="prevClusterMaskSeed();"
 						disabled><input type=submit value="&gt;" id=nextClusterMaskSeed onclick="nextClusterMaskSeed();"
