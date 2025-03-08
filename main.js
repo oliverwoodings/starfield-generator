@@ -115,7 +115,7 @@ let p5Instance = function (p) {
         var canvas = p.createCanvas(width, height);
         canvas.parent('starfield');
         p.noLoop();
-        document.getElementById('defaultCanvas0').style.transform = 'rotate(270deg)';
+        document.getElementById('defaultCanvas0').style.transform = `rotate(${rotateCanvas}deg)`;
     };
 
     p.draw = function () {

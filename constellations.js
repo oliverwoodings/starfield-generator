@@ -2,10 +2,10 @@
 const constellations = [
     {
         name: "Cancer",
-        x: 100,
-        y: 100,
-        rotation: 0,
-        scale: 2,
+        x: 1620,
+        y: 2300,
+        rotation: -40,
+        scale: 3,
         stars: [
             { x: 21, y: 47, size: 4 },
             { x: 20, y: 5, size: 3 },
@@ -16,10 +16,10 @@ const constellations = [
     },
     { // done
         name: "Gemini",
-        x: 250,
-        y: 100,
-        rotation: 0,
-        scale: 4,
+        x: 1850,
+        y: 2000,
+        rotation: -55,
+        scale: 5,
         stars: [
             { x: 8, y: 13, size: 4 },
             { x: 20, y: 38, size: 4 },
@@ -86,9 +86,9 @@ const constellations = [
     {
         name: "Big Dipper",
         x: 530,
-        y: 1000,
+        y: 950,
         rotation: 110,
-        scale: 2.5,
+        scale: 3.5,
         stars: [
             { x: 14, y: 10, size: 3 },
             { x: 42, y: 17, size: 4 },
@@ -101,10 +101,10 @@ const constellations = [
     },
     {
         name: "Little Dipper",
-        x: 630,
+        x: 650,
         y: 1280,
-        rotation: 90,
-        scale: 0.5,
+        rotation: 95,
+        scale: 0.8,
         stars: [
             { x: 249, y: 194, size: 4 },
             { x: 185, y: 86, size: 3 },
