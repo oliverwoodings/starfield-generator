@@ -5,7 +5,7 @@ const constellations = [
         x: 100,
         y: 100,
         rotation: 0,
-        scale: 1,
+        scale: 2,
         stars: [
             { x: 21, y: 47, size: 4 },
             { x: 20, y: 5, size: 3 },
@@ -19,7 +19,7 @@ const constellations = [
         x: 250,
         y: 100,
         rotation: 0,
-        scale: 2,
+        scale: 4,
         stars: [
             { x: 8, y: 13, size: 4 },
             { x: 20, y: 38, size: 4 },
@@ -45,7 +45,7 @@ const constellations = [
         x: 400,
         y: 100,
         rotation: 0,
-        scale: 1,
+        scale: 2,
         stars: [
             { x: 40, y: 41, size: 4 },
             { x: 14, y: 8, size: 4 },
@@ -68,7 +68,7 @@ const constellations = [
         x: 550,
         y: 100,
         rotation: 0,
-        scale: 1,
+        scale: 2,
         stars: [
             { x: 9, y: 21, size: 4 },
             { x: 51, y: 30, size: 3 },
@@ -85,10 +85,10 @@ const constellations = [
     },
     {
         name: "Big Dipper",
-        x: 700,
-        y: 100,
-        rotation: 0,
-        scale: 1,
+        x: 530,
+        y: 1000,
+        rotation: 110,
+        scale: 2.5,
         stars: [
             { x: 14, y: 10, size: 3 },
             { x: 42, y: 17, size: 4 },
@@ -101,10 +101,10 @@ const constellations = [
     },
     {
         name: "Little Dipper",
-        x: 760,
-        y: 30,
-        rotation: 0,
-        scale: 0.25,
+        x: 630,
+        y: 1280,
+        rotation: 90,
+        scale: 0.5,
         stars: [
             { x: 249, y: 194, size: 4 },
             { x: 185, y: 86, size: 3 },
