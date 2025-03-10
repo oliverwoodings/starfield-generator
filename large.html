@@ -35,6 +35,9 @@
 		var initialBorder = 0;
 		var initialObstacleBuffer = 5;
 
+		var defaultSeed = 35723;
+		var defaultClusterMaskSeed = 35567;
+
 		var rotateCanvas = 0;
 
 		// Format: [size, x, y]
@@ -140,7 +143,7 @@
 			<tr>
 				<td>Random seed:</td>
 				<script>
-					document.write('<td><input type=text id=seed value="' + getQueryParam('seed') + '" size=4 maxlength=5 onkeyup="update();"></td>');
+					document.write('<td><input type=text id=seed value="' + (getQueryParam('seed') || defaultSeed) + '" size=4 maxlength=5 onkeyup="update();"></td>');
 				</script>
 				<td><input type=submit value="New seed" onclick="newSeed();">
 					<input type=submit value="&lt;" id=prevSeed onclick="prevSeed();" disabled><input type=submit
@@ -223,7 +226,7 @@
 			<tr>
 				<td>Space/cluster seed:</td>
 				<script>
-					document.write('<td><input type=text id=clusterMaskSeed value="' + getQueryParam('clusterMaskSeed') + '" size=4 maxlength=5 onkeyup="update();"></td>');
+					document.write('<td><input type=text id=clusterMaskSeed value="' + (getQueryParam('clusterMaskSeed') || defaultClusterMaskSeed) + '" size=4 maxlength=5 onkeyup="update();"></td>');
 				</script>
 				<td><input type=submit value="New seed" onclick="newClusterMaskSeed();">
 					<input type=submit value="&lt;" id=prevClusterMaskSeed onclick="prevClusterMaskSeed();"

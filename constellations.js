@@ -2,10 +2,10 @@
 const constellations = [
     {
         name: "Cancer",
-        x: 1620,
-        y: 2300,
+        x: 1320,
+        y: 2230,
         rotation: -40,
-        scale: 3,
+        scale: 5,
         stars: [
             { x: 21, y: 47, size: 4 },
             { x: 20, y: 5, size: 3 },
@@ -17,9 +17,9 @@ const constellations = [
     { // done
         name: "Gemini",
         x: 1850,
-        y: 2000,
-        rotation: -55,
-        scale: 5,
+        y: 1880,
+        rotation: -75,
+        scale: 8,
         stars: [
             { x: 8, y: 13, size: 4 },
             { x: 20, y: 38, size: 4 },
@@ -42,10 +42,10 @@ const constellations = [
     },
     {
         name: "Taurus",
-        x: 400,
-        y: 100,
-        rotation: 0,
-        scale: 2,
+        x: 1650,
+        y: 490,
+        rotation: 210,
+        scale: 7,
         stars: [
             { x: 40, y: 41, size: 4 },
             { x: 14, y: 8, size: 4 },
@@ -65,10 +65,10 @@ const constellations = [
     },
     {
         name: "Capricorn",
-        x: 550,
-        y: 100,
-        rotation: 0,
-        scale: 2,
+        x: 2630,
+        y: 1270,
+        rotation: -90,
+        scale: 7,
         stars: [
             { x: 9, y: 21, size: 4 },
             { x: 51, y: 30, size: 3 },
@@ -85,10 +85,10 @@ const constellations = [
     },
     {
         name: "Big Dipper",
-        x: 530,
-        y: 950,
+        x: 540,
+        y: 650,
         rotation: 110,
-        scale: 3.5,
+        scale: 5.4,
         stars: [
             { x: 14, y: 10, size: 3 },
             { x: 42, y: 17, size: 4 },
@@ -101,10 +101,10 @@ const constellations = [
     },
     {
         name: "Little Dipper",
-        x: 650,
-        y: 1280,
+        x: 750,
+        y: 1180,
         rotation: 95,
-        scale: 0.8,
+        scale: 1.3,
         stars: [
             { x: 249, y: 194, size: 4 },
             { x: 185, y: 86, size: 3 },
@@ -114,5 +114,37 @@ const constellations = [
             { x: 17, y: 22, size: 3 },
             { x: 227, y: 129, size: 3 }
         ]
+    },
+    {
+        name: "Meteor 1",
+        x: 730,
+        y: 2000,
+        rotation: 80,
+        scale: 3,
+        stars: generateMeteor()
+    },
+    {
+        name: "Meteor 2",
+        x: 2400,
+        y: 200,
+        rotation: 40,
+        scale: 4,
+        stars: generateMeteor()
+    },
+    {
+        name: "Meteor 3",
+        x: 2760,
+        y: 2000,
+        rotation: -45,
+        scale: 3,
+        stars: generateMeteor()
     }
 ];
+
+function generateMeteor () {
+    const stars = []
+    for (let i = 0; i < 20; i++) {
+        stars.push({ x: 5 * i, y: 0, size: 3 })
+    }
+    return stars
+}
