@@ -298,7 +298,7 @@ let p5Instance = function (p) {
             }
 
             const star = stars[starIndex];
-            p.strokeWeight(star.size * 2);
+            p.strokeWeight(star.size * 3);
             p.stroke(star.color[0], star.color[1], star.color[2]);
             if (doShapecode) {
                 switch (starIndex) {

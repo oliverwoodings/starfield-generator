@@ -6,8 +6,6 @@
 
 		/*************************/
 		// Hard-coded paramters
-		//var starfieldWidth = 1750;
-		//var starfieldHeight = 1090;
 		var starfieldWidth = 3230;
 		var starfieldHeight = 2545;
 
@@ -27,8 +25,8 @@
 		- little dipper: 6
 		*/
 
-		var initialSize1Count = 0;
-		var initialSize2Count = 800;
+		var initialSize1Count = 800;
+		var initialSize2Count = 0;
 		var initialSize3Count = 0;
 		var initialSize4Count = 0;
 		var initialEdgeFadeOut = 250;
@@ -154,28 +152,28 @@
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>0.50mm fibres:</td>
+				<td>0.75mm fibres:</td>
 				<script>
 					document.write('<td><input type=text id=size1 value="' + initialSize1Count + '" size=4 maxlength=4 onkeyup="update();"></td>');
 				</script>
 				<td><input type=checkbox id=showsize1 checked onclick="update();"></td>
 			</tr>
 			<tr>
-				<td>0.75mm fibres:</td>
+				<td>1.00mm fibres:</td>
 				<script>
 					document.write('<td><input type=text id=size2 value="' + initialSize2Count + '" size=4 maxlength=4 onkeyup="update();"></td>');
 				</script>
 				<td><input type=checkbox id=showsize2 checked onclick="update();"></td>
 			</tr>
 			<tr>
-				<td>1.00mm fibres:</td>
+				<td>1.50mm fibres:</td>
 				<script>
 					document.write('<td><input type=text id=size3 value="' + initialSize3Count + '" size=4 maxlength=4 onkeyup="update();"></td>');
 				</script>
 				<td><input type=checkbox id=showsize3 checked onclick="update();"></td>
 			</tr>
 			<tr>
-				<td>1.50mm fibres:</td>
+				<td>1.00mm meteor fibres:</td>
 				<script>
 					document.write('<td><input type=text id=size4 value="' + initialSize4Count + '" size=4 maxlength=4 onkeyup="update();"></td>');
 				</script>
