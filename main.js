@@ -148,12 +148,12 @@ let p5Instance = function (p) {
         var size4count = parseInt(document.getElementById('size4').value);
         var stars = [
             {
-                size: 1,
+                size: 2,
                 count: size1count,
-                color: cc ? [255, 0, 0] : [255, 255, 255]
+                color: cc ? [191, 64, 191] : [255, 255, 255]
             },
             {
-                size: 2,
+                size: 3,
                 count: size2count,
                 color: cc ? [0, 255, 0] : [255, 255, 255]
             },
@@ -284,10 +284,6 @@ let p5Instance = function (p) {
             }
         }
 
-        for (const star of fixedStars) {
-            // drawStar(star[0] - 1, star[1], star[2])
-        }
-
         for (const constellation of constellations) {
             plotConstellation(constellation)
         }
@@ -375,6 +371,7 @@ let p5Instance = function (p) {
             // circles
             p.noFill();
             p.ellipseMode(p.CENTER);
+            p.strokeWeight(3);
             p.stroke(0, 0, 255, 128);
             for (const circle of obstacles.circles) {
                 p.circle(circle.x, circle.y, circle.d);
@@ -382,7 +379,7 @@ let p5Instance = function (p) {
 
             // rectangles
             p.stroke(0, 255, 0, 128);
-            p.strokeWeight(1);
+            p.strokeWeight(2);
             for (const rect of obstacles.rectangles) {
                 p.rect(rect.x, rect.y, rect.w, rect.h);
             }

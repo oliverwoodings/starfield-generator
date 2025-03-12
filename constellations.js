@@ -65,7 +65,7 @@ const constellations = [
     },
     {
         name: "Capricorn",
-        x: 2630,
+        x: 2630 - 150,
         y: 1270,
         rotation: -90,
         scale: 7,
@@ -133,7 +133,7 @@ const constellations = [
     },
     {
         name: "Meteor 3",
-        x: 2760,
+        x: 2760 - 125,
         y: 2000,
         rotation: -45,
         scale: 3,
