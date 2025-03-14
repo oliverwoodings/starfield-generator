@@ -163,7 +163,7 @@ let p5Instance = function (p) {
                 color: cc ? [0, 0, 255] : [255, 255, 255]
             },
             {
-                size: 4,
+                size: 3,
                 count: size4count,
                 color: cc ? [255, 255, 0] : [255, 255, 255]
             }
@@ -188,23 +188,16 @@ let p5Instance = function (p) {
                 { x: 0, y: 2500, w: width, h: 45 }
             ],
             circles: [{
-                x: 1615,
+                x: width / 2,
                 y: 1295,
                 d: 425
             }],
-            lines: [
-                // { x1: 0, y1: 360, x2: 1240, y2: 360 },
-                // { x1: 0, y1: 1010, x2: 1240, y2: 1010 }
-            ]
+            lines: []
         }
-        // for (var x = 180; x < width; x += 240) { // 24" joists
-        // 	obstacles.rectangles.push({
-        // 		x,
-        // 		y: 0,
-        // 		w: 15,
-        // 		h: height
-        // 	})
-        // }
+
+        for (let x = 210; x < width; x += 210) {
+            obstacles.lines.push({ x1: x, x2: x, y1: 0, y2: height })
+        }
 
         var clusterMaskSeed = parseInt(document.getElementById('clusterMaskSeed').value);
         if (isNaN(clusterMaskSeed) || clusterMaskSeed == 0) {
@@ -307,7 +300,7 @@ let p5Instance = function (p) {
                         break;
                     case 3:
                         p.fill(star.color[0], star.color[1], star.color[2]);
-                        p.square(x, y, starIndex * 2);
+                        p.square(x, y, starIndex);
                 }
             } else {
                 p.point(x, y);
@@ -378,14 +371,19 @@ let p5Instance = function (p) {
             }
 
             // rectangles
-            p.stroke(0, 255, 0, 128);
             p.strokeWeight(2);
             for (const rect of obstacles.rectangles) {
+                if (rect.c) {
+                    p.stroke(...rect.c)
+                } else {
+                    p.stroke(0, 255, 0, 128)
+                }
                 p.rect(rect.x, rect.y, rect.w, rect.h);
             }
 
             // Draw Extra grids
             for (const line of obstacles.lines) {
+                p.stroke(255, 255, 255, 60);
                 p.line(line.x1, line.y1, line.x2, line.y2);
             }
         }
