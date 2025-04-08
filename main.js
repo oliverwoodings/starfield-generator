@@ -77,6 +77,20 @@ function generatePNG() {
     }
     processingInstance.save("starfield.png");
 }
+
+const a4Frame = document.createElement('canvas');
+a4Frame.width = 210;
+a4Frame.height = 297;
+const downloadLink = document.createElement('a');
+function generateFrames() {
+    const context = a4Frame.getContext('2d');
+    context.drawImage(document.querySelector('#starfield canvas'), 0, 0, 210, 297, 0, 0, 210, 297);
+    
+    downloadLink.href = a4Frame.toDataURL();
+    downloadLink.download = "starfield-frame-1.png";
+    downloadLink.click();
+}
+
 function updateQueryParams (params) {
     const url = new URL(window.location);
     Object.keys(params).forEach(key => {
@@ -134,8 +148,10 @@ let p5Instance = function (p) {
         if (bgImage != '' && imported_image != null && imported_image.loaded) {
             window.clearTimeout(window.imgloader);
             p.image(imported_image, 0, 0, width, height);
-        } else {
+        } else if (document.getElementById('blackbackground').checked) {
             p.background(0, 0, 0);
+        } else {
+            p.background(255, 255, 255);
         }
 
         var cc = document.getElementById('cc').checked;
@@ -197,6 +213,9 @@ let p5Instance = function (p) {
 
         for (let x = 210; x < width; x += 210) {
             obstacles.lines.push({ x1: x, x2: x, y1: 0, y2: height })
+        }
+        for (let y = 297; y < height; y += 297) {
+            obstacles.lines.push({ x1: 0, x2: width, y1: y, y2: y })
         }
 
         var clusterMaskSeed = parseInt(document.getElementById('clusterMaskSeed').value);
@@ -287,7 +306,7 @@ let p5Instance = function (p) {
             }
 
             const star = stars[starIndex];
-            p.strokeWeight(star.size * 3);
+            p.strokeWeight(star.size * 1);
             p.stroke(star.color[0], star.color[1], star.color[2]);
             if (doShapecode) {
                 switch (starIndex) {
@@ -383,8 +402,22 @@ let p5Instance = function (p) {
 
             // Draw Extra grids
             for (const line of obstacles.lines) {
-                p.stroke(255, 255, 255, 60);
+                p.stroke(150, 150, 150, 30);
                 p.line(line.x1, line.y1, line.x2, line.y2);
+            }
+
+            let pageCount = 1;
+            p.stroke(150, 150, 150, 30);
+            p.fill(150, 150, 150, 30);
+            p.strokeWeight(1);
+            p.textSize(40);
+            p.textAlign(p.CENTER, p.CENTER);
+
+            for (let y = 50; y < height; y += 297) {
+                for (let x = 105; x < width; x += 210) {
+                    p.text(pageCount, x, y);
+                    pageCount++;
+                }
             }
         }
 

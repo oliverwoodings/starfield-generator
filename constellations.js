@@ -118,9 +118,9 @@ const constellations = [
     {
         name: "Meteor 1",
         x: 730,
-        y: 2000,
-        rotation: 80,
-        scale: 3,
+        y: 1635,
+        rotation: 70,
+        scale: 2,
         stars: generateMeteor()
     },
     {
@@ -143,7 +143,7 @@ const constellations = [
 
 function generateMeteor () {
     const stars = []
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 8 * 4; i++) {
         stars.push({ x: 5 * i, y: 0, size: 4 })
     }
     return stars

@@ -131,6 +131,10 @@
 				</script>
 			</tr>
 			<tr>
+				<td>Black background:</td>
+				<td><input type=checkbox id=blackbackground onclick="update();"></td>
+			</tr>
+			<tr>
 				<td>Random seed:</td>
 				<script>
 					document.write('<td><input type=text id=seed value="' + (getQueryParam('seed') || defaultSeed) + '" size=4 maxlength=5 onkeyup="update();"></td>');
@@ -247,6 +251,8 @@
 		starfield. Warning: high values of "Space amount" can be slow with a lot of stars.<br>
 		<br>
 		To save as an image: <input type=submit value="Generate PNG" onclick="generatePNG();"><br>
+		<br>
+		To save A4 frames: <input type=submit value="Generate Frames" onclick="generateFrames();"><br>
 		<br>
 		To copy parameters to clipboard: <input type=submit value="Show parameters as text" onclick="saveParams();"><br>
 		<br>
