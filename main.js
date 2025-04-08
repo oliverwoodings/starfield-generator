@@ -79,16 +79,31 @@ function generatePNG() {
 }
 
 const a4Frame = document.createElement('canvas');
-a4Frame.width = 210;
-a4Frame.height = 297;
+a4Frame.width = 210 * scaleFactor;
+a4Frame.height = 297 * scaleFactor;
 const downloadLink = document.createElement('a');
-function generateFrames() {
+async function generateFrames() {
     const context = a4Frame.getContext('2d');
-    context.drawImage(document.querySelector('#starfield canvas'), 0, 0, 210, 297, 0, 0, 210, 297);
-    
-    downloadLink.href = a4Frame.toDataURL();
-    downloadLink.download = "starfield-frame-1.png";
-    downloadLink.click();
+    const source = document.querySelector('#starfield canvas');
+    const w = a4Frame.width;
+    const h = a4Frame.height;
+
+    let pageCount = 1;
+    for (let y = 0; y < source.height; y += h) {
+        for (let x = 0; x < source.width; x += w) {
+            context.clearRect(0, 0, w, h);
+            context.drawImage(source, x, y, w, h, 0, 0, w, h);
+            downloadLink.href = a4Frame.toDataURL();
+            downloadLink.download = `starfield-frame-${pageCount}.png`;
+            downloadLink.click();
+            pageCount++;
+            await defer(300)
+        }
+    }
+}
+
+function defer (timeout) {
+    return new Promise((resolve) => setTimeout(resolve, timeout))
 }
 
 function updateQueryParams (params) {
@@ -126,13 +141,20 @@ let p5Instance = function (p) {
             imported_image = p.loadImage(bgImage);
         }
 
-        var canvas = p.createCanvas(width, height);
+        var canvas = p.createCanvas(width * scaleFactor, height * scaleFactor);
         canvas.parent('starfield');
         p.noLoop();
         document.getElementById('defaultCanvas0').style.transform = `rotate(${rotateCanvas}deg)`;
     };
 
     p.draw = function () {
+        const el = document.getElementById('defaultCanvas0')
+        el.style.width = width + 'px';
+        el.style.height = height + 'px';
+        el.width = width * scaleFactor;
+        el.height = height * scaleFactor;
+
+        p.scale(scaleFactor);
         var fadeout = parseInt(document.getElementById('fadeout').value);
 
         var border = parseInt(document.getElementById('border').value);
@@ -145,15 +167,7 @@ let p5Instance = function (p) {
         }
         p.randomSeed(seed);
 
-        if (bgImage != '' && imported_image != null && imported_image.loaded) {
-            window.clearTimeout(window.imgloader);
-            p.image(imported_image, 0, 0, width, height);
-        } else if (document.getElementById('blackbackground').checked) {
-            p.background(0, 0, 0);
-        } else {
-            p.background(255, 255, 255);
-        }
-
+        var blackBackground = document.getElementById('blackbackground').checked
         var cc = document.getElementById('cc').checked;
         var doShapecode = document.getElementById('shapecode').checked;
         var doObstacles = document.getElementById('obstacles').checked;
@@ -162,26 +176,40 @@ let p5Instance = function (p) {
         var size2count = parseInt(document.getElementById('size2').value);
         var size3count = parseInt(document.getElementById('size3').value);
         var size4count = parseInt(document.getElementById('size4').value);
+        const noCcColor = blackBackground ? [255, 255, 255] : [0, 0, 0]
+
+        if (bgImage != '' && imported_image != null && imported_image.loaded) {
+            window.clearTimeout(window.imgloader);
+            p.image(imported_image, 0, 0, width, height);
+        } else {
+            if (blackBackground) {
+                p.fill(0, 0, 0);
+            } else {
+                p.fill(255, 255, 255);
+            }
+            p.rect(0, 0, width, height);
+        }
+
         var stars = [
             {
                 size: 2,
                 count: size1count,
-                color: cc ? [191, 64, 191] : [255, 255, 255]
+                color: cc ? [191, 64, 191] : noCcColor
             },
             {
                 size: 3,
                 count: size2count,
-                color: cc ? [0, 255, 0] : [255, 255, 255]
+                color: cc ? [0, 255, 0] : noCcColor
             },
             {
                 size: 3,
                 count: size3count,
-                color: cc ? [0, 0, 255] : [255, 255, 255]
+                color: cc ? [0, 0, 255] : noCcColor
             },
             {
                 size: 3,
                 count: size4count,
-                color: cc ? [255, 255, 0] : [255, 255, 255]
+                color: cc ? [255, 255, 0] : noCcColor
             }
         ];
         var showsize = [
@@ -211,12 +239,12 @@ let p5Instance = function (p) {
             lines: []
         }
 
-        for (let x = 210; x < width; x += 210) {
-            obstacles.lines.push({ x1: x, x2: x, y1: 0, y2: height })
-        }
-        for (let y = 297; y < height; y += 297) {
-            obstacles.lines.push({ x1: 0, x2: width, y1: y, y2: y })
-        }
+        // for (let x = 210; x < width; x += 210) {
+        //     obstacles.lines.push({ x1: x, x2: x, y1: 0, y2: height })
+        // }
+        // for (let y = 297; y < height; y += 297) {
+        //     obstacles.lines.push({ x1: 0, x2: width, y1: y, y2: y })
+        // }
 
         var clusterMaskSeed = parseInt(document.getElementById('clusterMaskSeed').value);
         if (isNaN(clusterMaskSeed) || clusterMaskSeed == 0) {
@@ -306,20 +334,22 @@ let p5Instance = function (p) {
             }
 
             const star = stars[starIndex];
-            p.strokeWeight(star.size * 1);
+            p.strokeWeight(star.size * 2);
             p.stroke(star.color[0], star.color[1], star.color[2]);
             if (doShapecode) {
                 switch (starIndex) {
                     case 0:
-                    case 1:
                         p.point(x, y);
                         break;
+                    case 1:
+                        p.quad(x, y - 1, x + 1, y, x, y + 1, x - 1, y);
+                        break;
                     case 2:
-                        p.triangle(x, y, x - 2, y + 4, x + 2, y + 4);
+                        p.triangle(x, y, x - 1, y + 2, x + 1, y + 2);
                         break;
                     case 3:
                         p.fill(star.color[0], star.color[1], star.color[2]);
-                        p.square(x, y, starIndex);
+                        p.square(x, y, starIndex - 2);
                 }
             } else {
                 p.point(x, y);
