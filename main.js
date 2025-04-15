@@ -232,7 +232,7 @@ let p5Instance = function (p) {
                 { x: 0, y: 2500, w: width, h: 45 }
             ],
             circles: [{
-                x: width / 2,
+                x: width - 1438, // so that it ends up being based off the south wall
                 y: 1295,
                 d: 425
             }],

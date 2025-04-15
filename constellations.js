@@ -2,7 +2,7 @@
 const constellations = [
     {
         name: "Cancer",
-        x: 1320,
+        x: 920,
         y: 2230,
         rotation: -40,
         scale: 5,
@@ -14,7 +14,7 @@ const constellations = [
             { x: 8, y: 71, size: 2 }
         ]
     },
-    { // done
+    {
         name: "Gemini",
         x: 1850,
         y: 1880,
@@ -65,7 +65,7 @@ const constellations = [
     },
     {
         name: "Capricorn",
-        x: 2630 - 150,
+        x: 2630 - 150 - 100,
         y: 1270,
         rotation: -90,
         scale: 7,
@@ -85,7 +85,7 @@ const constellations = [
     },
     {
         name: "Big Dipper",
-        x: 540,
+        x: 540 - 190,
         y: 650,
         rotation: 110,
         scale: 5.4,
@@ -101,7 +101,7 @@ const constellations = [
     },
     {
         name: "Little Dipper",
-        x: 750,
+        x: 750 - 190,
         y: 1180,
         rotation: 95,
         scale: 1.3,
@@ -117,7 +117,7 @@ const constellations = [
     },
     {
         name: "Meteor 1",
-        x: 730,
+        x: 730 - 190,
         y: 1635,
         rotation: 70,
         scale: 2,
@@ -126,17 +126,17 @@ const constellations = [
     {
         name: "Meteor 2",
         x: 2400,
-        y: 200,
+        y: 210,
         rotation: 40,
-        scale: 4,
+        scale: 3,
         stars: generateMeteor()
     },
     {
         name: "Meteor 3",
-        x: 2760 - 125,
-        y: 2000,
+        x: 2760 - 125 - 180,
+        y: 1990,
         rotation: -45,
-        scale: 3,
+        scale: 2.7,
         stars: generateMeteor()
     }
 ];
