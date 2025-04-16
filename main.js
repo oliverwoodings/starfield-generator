@@ -229,7 +229,8 @@ let p5Instance = function (p) {
                 { x: 0, y: 1430, w: width, h: 45 },
                 { x: 0, y: 1790, w: width, h: 45 },
                 { x: 0, y: 2150, w: width, h: 45 },
-                { x: 0, y: 2500, w: width, h: 45 }
+                { x: 0, y: 2500, w: width, h: 45 },
+                { x: width - 1438 - 420, y: 1475, w: 990, h: 30, skipCount: true }
             ],
             circles: [{
                 x: width - 1438, // so that it ends up being based off the south wall
@@ -334,7 +335,7 @@ let p5Instance = function (p) {
             }
 
             const star = stars[starIndex];
-            p.strokeWeight(star.size * 2);
+            p.strokeWeight(star.size * 1);
             p.stroke(star.color[0], star.color[1], star.color[2]);
             if (doShapecode) {
                 switch (starIndex) {
@@ -454,6 +455,7 @@ let p5Instance = function (p) {
         // Calculate stars per bay
         const bays = []
         for (let i = 0; i < obstacles.rectangles.length + 1; i++) {
+            if (obstacles.rectangles[i]?.skipCount) continue
             const bay = {
                 y: obstacles.rectangles[i]?.y,
                 counts: showsize.reduce((p, c, i) => {
